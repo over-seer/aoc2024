@@ -23,11 +23,8 @@ int64_t product(const string &s) {
 }
 
 void part1(const vector<string> &ip) {
-  // printf("%s\n",mem.c_str());
   int64_t ans = 0;
   for (auto &mem : ip) {
-
-    smatch mul_match;
     auto mul_begin = sregex_iterator(mem.begin(), mem.end(), mul_regex);
     auto mul_end = sregex_iterator();
     for (sregex_iterator i = mul_begin; i != mul_end; ++i) {
@@ -58,8 +55,6 @@ void part2(const vector<string> &ip) {
 
   int64_t ans = 0;
   for (auto &mem : ip) {
-
-    smatch mul_match;
     auto mul_begin = sregex_iterator(mem.begin(), mem.end(), mul_regex2);
     auto mul_end = sregex_iterator();
     for (sregex_iterator i = mul_begin; i != mul_end; ++i) {
