@@ -22,12 +22,12 @@ auto parse1(const string &fn) {
 }
 
 void part1(const string &fn) {
-  auto [ip0, ip1] = parse1(fn);
-  sort(ip0.begin(), ip0.end());
-  sort(ip1.begin(), ip1.end());
+  auto [l, r] = parse1(fn);
+  sort(l.begin(), l.end());
+  sort(r.begin(), r.end());
   int64_t ans = 0;
-  for (size_t i = 0; i < ip0.size(); i++) {
-    auto diff = std::abs(ip0.at(i) - ip1.at(i));
+  for (size_t i = 0; i < l.size(); i++) {
+    auto diff = std::abs(l.at(i) - r.at(i));
     ans += diff;
   }
   println("part 1 ans = {}", ans);

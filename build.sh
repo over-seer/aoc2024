@@ -2,7 +2,7 @@
 
 TOP=$PWD
 
-for i in 01 02 03
+for i in 01 02 03 04
 do
     echo $i
     cd $TOP/$i
