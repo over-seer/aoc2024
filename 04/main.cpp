@@ -1,8 +1,5 @@
 #include "../aoc.h"
 #include <array>
-#include <cassert>
-#include <cstdio>
-#include <format>
 #include <print>
 #include <stdexcept>
 #include <string>
@@ -17,19 +14,6 @@ const vector<string> test = {
 
 constexpr array dirs = {array{-1, -1}, array{-1, 0}, array{-1, 1}, array{0, -1},
                         array{0, 1},   array{1, -1}, array{1, 0},  array{1, 1}};
-
-vector<string> pad(vector<string> v, char c = '0', size_t n = 1) {
-  const size_t nx = v.at(0).size();
-  const string lr = string(n, c);
-  for (auto &s : v) {
-    s = format("{}{}{}", lr, s, lr);
-    assert(s.size() == nx + 2 * n);
-  }
-  vector<string> tb(n, string(nx + 2 * n, '0'));
-  v.insert(v.begin(), tb.begin(), tb.end());
-  v.insert(v.end(), tb.begin(), tb.end());
-  return v;
-}
 
 int num_matches(const vector<string> &ip, const string &word, size_t irow,
                 size_t icol) {
@@ -73,7 +57,7 @@ bool is_xmas(const vector<string> &ip, size_t irow, size_t icol) {
 
 void part1(const vector<string> &ip, const string &word) {
   const size_t n = word.size() - 1;
-  const auto padded = pad(ip, '0', n);
+  const auto padded = aoc::pad(ip, '0', n);
   int ans = 0;
   for (size_t irow = n; irow < padded.size() - n; ++irow) {
     for (size_t icol = n; icol < padded[irow].size() - n; ++icol) {
@@ -84,7 +68,7 @@ void part1(const vector<string> &ip, const string &word) {
 }
 
 void part2(const vector<string> &ip) {
-  const auto padded = pad(ip);
+  const auto padded = aoc::pad(ip);
   int ans = 0;
   for (size_t irow = 1; irow < padded.size() - 1; ++irow) {
     for (size_t icol = 1; icol < padded[irow].size() - 1; ++icol) {

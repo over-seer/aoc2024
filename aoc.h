@@ -3,10 +3,12 @@
 
 #include <algorithm>
 #include <array>
+#include <cassert>
 #include <cctype>
 #include <cmath>
 #include <cstdio>
 #include <deque>
+#include <format>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -29,9 +31,8 @@ namespace aoc {
 template <class T>
 std::set<T> intersect(const std::set<T> &s1, const std::set<T> &s2) {
   std::set<T> result;
-  set_intersection(
-    s1.begin(), s1.end(), s2.begin(), s2.end(),
-    inserter(result, result.begin()));
+  set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(),
+                   inserter(result, result.begin()));
   return result;
 }
 
@@ -127,11 +128,25 @@ std::set<T> operator+=(std::set<T> &a, const std::set<T> &b) {
   }
   return a;
 }
+
+// add padding round a vector of strings
+std::vector<std::string> pad(std::vector<std::string> v, char c = '0', size_t n = 1) {
+  const size_t nx = v.at(0).size();
+  const std::string lr = std::string(n, c);
+  for (auto &s : v) {
+    s = std::format("{}{}{}", lr, s, lr);
+    assert(s.size() == nx + 2 * n);
+  }
+  std::vector<std::string> tb(n, std::string(nx + 2 * n, '0'));
+  v.insert(v.begin(), tb.begin(), tb.end());
+  v.insert(v.end(), tb.begin(), tb.end());
+  return v;
+}
+
 } // namespace aoc
 
 namespace std {
-template <typename T, std::size_t N>
-struct hash<std::array<T, N>> {
+template <typename T, std::size_t N> struct hash<std::array<T, N>> {
   std::size_t operator()(const std::array<T, N> &arr) const {
     std::hash<T> hasher;
     std::size_t hash_value = 0;
