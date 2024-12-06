@@ -27,7 +27,6 @@ auto parse(const string &fn) {
 }
 
 bool safe(const vector<int> &v) {
-  // for(auto i : v) print("{}    ",i);
   if (v.empty())
     throw runtime_error("empty report!");
   if (v.size() == 1)
