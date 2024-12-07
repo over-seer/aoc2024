@@ -5,8 +5,9 @@
 #include <ranges>
 #include <string>
 #include <vector>
+#include <functional>
 
-using std::accumulate, std::ranges::count, std::sort;
+using std::accumulate, std::ranges::count, std::ranges::sort, std::transform_reduce;
 using std::array, std::string, std::vector;
 using std::println;
 
@@ -23,8 +24,8 @@ auto parse1(const string &fn) {
 
 void part1(const string &fn) {
   auto [l, r] = parse1(fn);
-  sort(l.begin(), l.end());
-  sort(r.begin(), r.end());
+  sort(l);
+  sort(r);
   int64_t ans = 0;
   for (size_t i = 0; i < l.size(); i++) {
     auto diff = std::abs(l.at(i) - r.at(i));
@@ -35,9 +36,8 @@ void part1(const string &fn) {
 
 void part2(const string &fn) {
   const auto [l, r] = parse1(fn);
-  int64_t ans = 0;
-  for (auto x : l)
-    ans += count(r, x) * x;
+  const int64_t ans = transform_reduce(l.begin(), l.end(), 0, std::plus<>(),
+                                       [&](auto x) { return count(r, x) * x; });
   println("part 2 ans = {}", ans);
 }
 
