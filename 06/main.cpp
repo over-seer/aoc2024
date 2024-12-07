@@ -5,12 +5,10 @@
 #include <print>
 #include <set>
 #include <string>
-#include <tuple>
 #include <vector>
 
 using std::array, std::set, std::string, std::vector;
 using std::println;
-using std::tuple;
 
 auto parse(const string &fn) { return aoc::pad(aoc::read_file(fn)); }
 
@@ -28,30 +26,27 @@ Guard start(const auto ip) {
   throw std::runtime_error("no guard");
 }
 
-auto r(int dr, int dc) {
-  return array{dc, -dr};
-}
+auto r(int dr, int dc) { return array{dc, -dr}; }
 
-Guard walk(auto &grid, Guard &g) {
-  auto [irow, icol, dr, dc] = g;
-  size_t ir = irow + dr;
-  size_t ic = icol + dc;
-  if (grid.at(ir).at(ic) == '#') {
-    std::tie(dr, dc) = r(g.dr, g.dc);
+Guard walk(auto &grid, Guard g) {
+  while (grid.at(g.irow + g.dr).at(g.icol + g.dc) == '#') {
+    std::tie(g.dr, g.dc) = r(g.dr, g.dc);
   }
-  return Guard{irow + dr, icol + dc, dr, dc};
+  g.irow += g.dr;
+  g.icol += g.dc;
+  return g;
 }
 
 bool causes_loop(vector<string> grid, Guard g, size_t obr, size_t obc) {
   set<Guard> visited;
   grid.at(obr).at(obc) = '#';
   while (grid.at(g.irow).at(g.icol) != '0') {
-    if (grid.at(g.irow + g.dr).at(g.icol + g.dc) == '#') {
-      std::tie(g.dr, g.dc) = r(g.dr, g.dc);
+    while (grid.at(g.irow + g.dr).at(g.icol + g.dc) == '#') {
       if (visited.contains(g))
         return true;
       else
         visited.insert(g);
+      std::tie(g.dr, g.dc) = r(g.dr, g.dc);
     }
     g.irow += g.dr;
     g.icol += g.dc;
@@ -64,8 +59,6 @@ void day6(const string &fn) {
   Guard g = start(ip);
   auto grid = ip;
   while (grid.at(g.irow).at(g.icol) != '0') {
-    // println("{},{} {},{} {} ", g.irow, g.icol, g.dr, g.dc,
-    //         grid[g.irow][g.icol]);
     grid.at(g.irow).at(g.icol) = 'X';
     g = walk(grid, g);
   }
@@ -79,9 +72,10 @@ void day6(const string &fn) {
   int ans2 = 0;
   for (size_t r = 1; r + 1 < ip.size(); r++) {
     for (size_t c = 1; c + 1 < ip.at(r).size(); c++) {
-      if (grid[r][c] == 'X') {
-        if (causes_loop(grid, g0, r, c))
+      if (grid[r][c] == 'X' && ip[r][c] == '.') {
+        if (causes_loop(grid, g0, r, c)) {
           ans2++;
+        }
       }
     }
   }

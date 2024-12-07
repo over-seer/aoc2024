@@ -2,7 +2,7 @@
 
 TOP=$PWD
 
-for i in 01 02 03 04 05
+for i in 01 02 03 04 05 06
 do
   cd $TOP/$i
   time ./a.gnu
