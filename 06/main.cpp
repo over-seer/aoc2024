@@ -9,15 +9,15 @@
 #include <vector>
 
 using std::array, std::set, std::string, std::vector;
-using std::tuple;
 using std::println;
+using std::tuple;
 
 auto parse(const string &fn) { return aoc::pad(aoc::read_file(fn)); }
 
 struct Guard {
   size_t irow, icol;
   int dr, dc;
-  auto operator<=>(const Guard&) const = default;
+  auto operator<=>(const Guard &) const = default;
 };
 
 Guard start(const auto ip) {
@@ -29,10 +29,6 @@ Guard start(const auto ip) {
 }
 
 auto r(int dr, int dc) {
-  //    0 +  + 0
-  //    + 0  0 -
-  //    0 -  - 0
-  //    - 0  0 +
   return array{dc, -dr};
 }
 
@@ -46,15 +42,19 @@ Guard walk(auto &grid, Guard &g) {
   return Guard{irow + dr, icol + dc, dr, dc};
 }
 
-bool causes_loop(auto grid, Guard g, size_t obr, size_t obc) {
+bool causes_loop(vector<string> grid, Guard g, size_t obr, size_t obc) {
   set<Guard> visited;
   grid.at(obr).at(obc) = '#';
   while (grid.at(g.irow).at(g.icol) != '0') {
-    if (visited.contains(g))
-      return true;
-    else
-      visited.insert(g);
-    g = walk(grid, g);
+    if (grid.at(g.irow + g.dr).at(g.icol + g.dc) == '#') {
+      std::tie(g.dr, g.dc) = r(g.dr, g.dc);
+      if (visited.contains(g))
+        return true;
+      else
+        visited.insert(g);
+    }
+    g.irow += g.dr;
+    g.icol += g.dc;
   }
   return false;
 }
@@ -75,11 +75,12 @@ void day6(const string &fn) {
       [](const string &s) -> size_t { return std::ranges::count(s, 'X'); });
   println("ans 1 = {}", ans1);
 
+  Guard g0 = start(ip);
   int ans2 = 0;
-  for (size_t r = 0; r < ip.size(); r++) {
-    for (size_t c = 0; c < ip.at(r).size(); c++) {
-      if (ip[r][c] == '.' && grid[r][c] == 'X') {
-        if (causes_loop(grid, start(ip), r, c))
+  for (size_t r = 1; r + 1 < ip.size(); r++) {
+    for (size_t c = 1; c + 1 < ip.at(r).size(); c++) {
+      if (grid[r][c] == 'X') {
+        if (causes_loop(grid, g0, r, c))
           ans2++;
       }
     }
