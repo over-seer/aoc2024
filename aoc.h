@@ -122,11 +122,10 @@ inline auto read_paragraph_ip(std::string s) {
 }
 
 template <class T>
-std::set<T> operator+=(std::set<T> &a, const std::set<T> &b) {
+void merge(std::set<T> &a, const std::set<T> &b) {
   for (auto &k : b) {
     a.insert(k);
   }
-  return a;
 }
 
 // add padding round a vector of strings
