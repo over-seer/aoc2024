@@ -30,7 +30,7 @@ auto get_antinodes(const vector<Vec> &ants, int nr, int nc) {
       auto [r1, c1] = ants[ix1];
       auto dr = r1 - r0;
       auto dc = c1 - c0;
-      Vec new_pos1 = {r0 - dr, c0 - dc};
+      const Vec new_pos1 = {r0 - dr, c0 - dc};
       const Vec new_pos2 = {r1 + dr, c1 + dc};
       for (const auto &[r, c] : {new_pos1, new_pos2})
         if (r >= 0 && r < nr && c >= 0 && c < nc)
