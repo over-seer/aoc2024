@@ -1,4 +1,4 @@
-#include "../aoc.h"
+#include "aoc.h"
 #include <array>
 #include <map>
 #include <print>

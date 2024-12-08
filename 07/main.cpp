@@ -1,4 +1,4 @@
-#include "../aoc.h"
+#include "aoc.h"
 #include <functional>
 #include <numeric>
 #include <print>
