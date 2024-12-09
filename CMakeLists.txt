@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.22)
+
+project(aoc2024 VERSION 0.1 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 23)
+include_directories(./)
+add_executable(01 01/main.cpp)
+add_executable(02 02/main.cpp)
+add_executable(03 03/main.cpp)
+add_executable(04 04/main.cpp)
+add_executable(05 05/main.cpp)
+add_executable(06 06/main.cpp)
+add_executable(07 07/main.cpp)
+add_executable(08 08/main.cpp)
+add_executable(09 09/main.cpp)
+
+
+#foreach( DAY IN LISTS 01 02 03 04 05 06 07 08 )
+#    string(APPEND aoc_exe ${DAY})
+#    add_executable( ${aoc_exe} ${DAY}/main.cpp aoc.h)
+#    set_property(TARGET ${DAY} PROPERTY CXX_STANDARD 23)
+#endforeach()
