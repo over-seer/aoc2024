@@ -4,9 +4,11 @@
 #include <print>
 #include <string>
 #include <vector>
+#include <ranges>
 
 using std::format, std::print, std::println, std::stoul;
 using std::map, std::optional, std::string, std::vector;
+using std::views::reverse, std::views::enumerate;
 
 const string test_input = "2333133121414131402";
 
@@ -66,16 +68,16 @@ void part2(const string &s) {
     }
     pos += n;
   }
-  for (size_t ix = files.size(); ix > 0; ix--) {
-    const size_t id = ix - 1;
-    const size_t reqd_len = files.at(id).len;
-    const size_t current_pos = files.at(id).pos;
+
+  for (auto && [id,file] : files | enumerate | reverse) {
+    const size_t reqd_len = file.len;
+    const size_t current_pos = file.pos;
     for (auto it = gaps.begin(); it != gaps.end(); ++it) {
       auto [pos, len] = *it;
       if (pos > current_pos)
         break;
       if (len >= reqd_len) {
-        files.at(id).pos = pos;
+        file.pos = pos;
         gaps.erase(it);
         if (len != reqd_len)
           gaps[pos + reqd_len] = len - reqd_len;
