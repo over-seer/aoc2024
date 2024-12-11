@@ -136,7 +136,7 @@ std::vector<std::string> pad(std::vector<std::string> v, char c = '0', size_t n 
     s = std::format("{}{}{}", lr, s, lr);
     assert(s.size() == nx + 2 * n);
   }
-  std::vector<std::string> tb(n, std::string(nx + 2 * n, '0'));
+  std::vector<std::string> tb(n, std::string(nx + 2 * n, c));
   v.insert(v.begin(), tb.begin(), tb.end());
   v.insert(v.end(), tb.begin(), tb.end());
   return v;
