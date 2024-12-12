@@ -14,8 +14,11 @@ add_executable(08 08/main.cpp)
 add_executable(09 09/main.cpp)
 add_executable(10 10/main.cpp)
 add_executable(11 11/main.cpp)
-#add_executable(12 12/main.cpp)
-
+add_executable(12 12/main.cpp)
+#add_executable(13 13/main.cpp)
+#add_executable(14 14/main.cpp)
+#add_executable(15 15/main.cpp)
+#add_executable(16 16/main.cpp)
 
 #foreach( DAY IN LISTS 01 02 03 04 05 06 07 08 )
 #    string(APPEND aoc_exe ${DAY})

@@ -16,7 +16,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j12
 cd $TOP
 
-for i in 01 02 03 04 05 06 07 08 09 10 11
+for i in 01 02 03 04 05 06 07 08 09 10 11 12
 do
   cp -rf build_gnu/${i} ${i}/a.gnu
   cp -rf build_clang/${i} ${i}/a.clang
