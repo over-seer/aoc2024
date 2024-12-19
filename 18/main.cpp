@@ -9,7 +9,6 @@ using Vec = array<int, 2>;
 auto parse(const string &fn) {
   auto getvec = [](const string &s) -> array<int, 2> {
     auto [s1, s2] = aoc::splitn<2>(s,',');
-    //println("{} {}",s1,s2);
     return Vec{stoi(s2), stoi(s1)};
   };
   auto ip = aoc::read_file(fn) | views::transform(getvec);
@@ -40,24 +39,32 @@ template <int N> void dijkstra(Mem<N> &mem, Vec pos, int nsteps) {
   return;
 }
 
+template <int N> void flood(Mem<N> &mem, Vec pos) {
+  auto [i, j] = pos;
+  if (i < N && i >= 0 && j < N && j >= 0 && mem[i, j] > 0) {
+    mem[i, j] = 0;
+    if (i == N - 1 && j == N - 1)
+      return;
+    for (auto [di, dj] : dirs) {
+      flood(mem, {i + di, j + dj});
+    }
+  }
+  return;
+}
+
 template <int N> void part1(const string &fn, int bytes) {
   auto ip = parse(fn);
   Mem<N> mem;
   ranges::fill(mem, N * N);
   for (auto [i, j] : ip | views::take(bytes))
     mem[i, j] = -1;
-  //for(auto row : mem.a) {
-  //  for(auto i : row) print("{}", i < 0 ? '#' : '.');
-  //  println();
-  //}
   auto mem1 = mem;
   dijkstra(mem1, {0, 0}, 0);
   println("part 1 ans = {}", mem1[N - 1, N - 1]);
   for(auto [i,j] : ip | views::drop(bytes)) {
-    //println("{},{}",j,i);
     mem[i,j] = -1;
     auto mem2 = mem;
-    dijkstra(mem2, {0, 0}, 0);
+    flood(mem2, {0, 0});
     if(mem2[N-1,N-1] == N*N) {
         println("part 2 ans = {},{}", j,i);
         break;
