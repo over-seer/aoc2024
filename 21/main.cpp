@@ -90,8 +90,8 @@ auto all_paths(const auto &keys) {
   return result;
 };
 
-size_t dirseq(auto &cache, const auto &paths, const auto &dirpaths, char c0,
-              char c1, int n) {
+size_t seqlen_recurs(auto &cache, const auto &paths, const auto &dirpaths,
+                     char c0, char c1, int n) {
   if (cache.contains({c0, c1, n}))
     return cache.at({c0, c1, n});
   size_t result{};
@@ -101,7 +101,7 @@ size_t dirseq(auto &cache, const auto &paths, const auto &dirpaths, char c0,
     auto get_suff_len = [&](const string &s) {
       size_t suff_len = 0;
       for (auto [c2, c3] : (string{"A"} + s) | views::adjacent<2>) {
-        suff_len += dirseq(cache, dirpaths, dirpaths, c2, c3, n - 1);
+        suff_len += seqlen_recurs(cache, dirpaths, dirpaths, c2, c3, n - 1);
       }
       return suff_len;
     };
@@ -112,12 +112,12 @@ size_t dirseq(auto &cache, const auto &paths, const auto &dirpaths, char c0,
   return result;
 }
 
-size_t seq(const auto &numpaths, const auto &dirpaths, const string &no,
-           int nrobots) {
+size_t seqlen(const auto &numpaths, const auto &dirpaths, const string &no,
+              int nrobots) {
   size_t result = 0;
   map<tuple<char, char, int>, size_t> cache;
   for (auto [c0, c1] : no | views::adjacent<2>) {
-    result += dirseq(cache, numpaths, dirpaths, c0, c1, nrobots);
+    result += seqlen_recurs(cache, numpaths, dirpaths, c0, c1, nrobots);
   }
   return result;
 }
@@ -134,10 +134,10 @@ void part1(const vector<string> &nos) {
   const auto dir_key_paths = all_paths(dkeys);
   // print(num_key_paths);
   // print(dir_key_paths);
-  const auto complexity =
-      nos | views::transform([&](string no) {
-        return seq(num_key_paths, dir_key_paths, no, 2) * stoi(no.substr(1, 3));
-      });
+  const auto complexity = nos | views::transform([&](string no) {
+                            return seqlen(num_key_paths, dir_key_paths, no, 2) *
+                                   stoi(no.substr(1, 3));
+                          });
   const auto ans = ranges::fold_left(complexity, 0, plus());
   println("part 1 ans = {}", ans);
 }
@@ -145,10 +145,11 @@ void part1(const vector<string> &nos) {
 void part2(const vector<string> &nos) {
   const auto num_key_paths = all_paths(nkeys);
   const auto dir_key_paths = all_paths(dkeys);
-  const auto complexity = nos | views::transform([&](string no) {
-                            return seq(num_key_paths, dir_key_paths, no, 25) *
-                                   stoi(no.substr(1, 3));
-                          });
+  const auto complexity =
+      nos | views::transform([&](string no) {
+        return seqlen(num_key_paths, dir_key_paths, no, 25) *
+               stoi(no.substr(1, 3));
+      });
   const auto ans = ranges::fold_left(complexity, 0, plus());
   println("part 2 ans = {}", ans);
 }

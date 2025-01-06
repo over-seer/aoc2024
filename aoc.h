@@ -46,11 +46,11 @@ inline std::vector<std::string> split(const std::string &line, char c) {
   return result;
 }
 
-template <size_t N> std::array<std::string, N> splitn(const std::string &line, char c = ' ') {
+template <size_t N, char C = ' '> std::array<std::string, N> splitn(const std::string &line) {
   std::array<std::string, N> result;
   std::stringstream ss(line);
   for (size_t i = 0; i < N; i++)
-    std::getline(ss, result[i], c);
+    std::getline(ss, result[i], C);
     //ss >> result[i];
   return result;
 }
