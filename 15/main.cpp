@@ -70,9 +70,9 @@ set<Vec> check_stuck(vector<string> &grid) {
   set<Vec> stuck;
   for (auto &&[ir, s] : grid | enumerate) {
     for (auto &&[ic, ch] : s | enumerate) {
-      if (ch == 'O' && is_stuck(grid, {ir, ic}))
-        get_mut(grid, {ir, ic}) = '#';
-      stuck.insert(Vec{ir, ic});
+      if (ch == 'O' && is_stuck(grid, {static_cast<int>(ir), static_cast<int>(ic)}))
+        get_mut(grid, {static_cast<int>(ir), static_cast<int>(ic)}) = '#';
+      stuck.insert(Vec{static_cast<int>(ir), static_cast<int>(ic)});
     }
   }
   return stuck;
@@ -104,7 +104,7 @@ Vec start(const vector<string> &grid) {
   for (auto &&[ir, s] : grid | enumerate) {
     for (auto &&[ic, ch] : s | enumerate) {
       if (ch == '@')
-        return Vec{ir, ic};
+        return Vec{static_cast<int>(ir), static_cast<int>(ic)};
     }
   }
   throw std::runtime_error("no robot!");
@@ -210,7 +210,7 @@ void update_grid(vector<string> &grid, Vec dir, const set<Vec> &to_push) {
     const int ir = pos[ROW] + dir[ROW];
     const int ic = pos[COL] + dir[COL];
     grid[ir][ic] = ch;
-    //println("{},{} = {}", ir, ic, ch);
+    // println("{},{} = {}", ir, ic, ch);
   }
 }
 
@@ -224,7 +224,7 @@ void step2(vector<string> &grid, Vec &pos, const Vec dir) {
   } else if (c == '[' || c == ']') {
     set<Vec> to_push;
     if (can_push(grid, pos + dir, dir, to_push)) {
-      //println("debig can push!");
+      // println("debig can push!");
       pos += dir;
       to_push.insert(pos);
       update_grid(grid, dir, to_push);
@@ -243,9 +243,9 @@ void part2(const string &fn) {
   for (char c : join_view(moves)) {
     grid[pos[ROW]][pos[COL]] = '.';
     step2(grid, pos, get_move(c));
-    //println("Move {}", c);
+    // println("Move {}", c);
     grid[pos[ROW]][pos[COL]] = '@';
-    //for (auto s : grid)      println("{}", s);
+    // for (auto s : grid)      println("{}", s);
   }
   int64_t ans = 0;
   for (auto &&[ir, s] : grid | enumerate) {

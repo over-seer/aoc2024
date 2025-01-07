@@ -16,6 +16,7 @@ auto parse1(const string &fn) {
   const auto ip = aoc::read_file(fn);
   for (auto &line : ip) {
     auto [s0, s1] = aoc::splitn<2>(line);
+    println("{}.{}.{}",line,s0,s1);
     op[0].push_back(stoi(s0));
     op[1].push_back(stoi(s1));
   }
@@ -27,6 +28,7 @@ void part1(const string &fn) {
   sort(l);
   sort(r);
   int64_t ans = 0;
+  assert(l.size() == r.size());
   for (size_t i = 0; i < l.size(); i++) {
     auto diff = std::abs(l.at(i) - r.at(i));
     ans += diff;

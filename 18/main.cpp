@@ -8,7 +8,7 @@ using Vec = array<int, 2>;
 
 auto parse(const string &fn) {
   auto getvec = [](const string &s) -> array<int, 2> {
-    auto [s1, s2] = aoc::splitn<2>(s,',');
+    auto [s1, s2] = aoc::splitn<2,','>(s);
     return Vec{stoi(s2), stoi(s1)};
   };
   auto ip = aoc::read_file(fn) | views::transform(getvec);

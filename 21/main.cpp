@@ -27,7 +27,7 @@ vector<string> parse(const string &fn) {
          ranges::to<vector>();
 }
 
-constexpr map<char, Vec> keypos(const auto keys) {
+map<char, Vec> keypos(const auto keys) {
   map<char, Vec> result;
   for (auto [irow, s] : keys | views::enumerate) {
     for (auto [icol, c] : s | views::enumerate) {

@@ -16,7 +16,7 @@ auto parse(const string &fn) {
   auto vecparse = [](const string &s) {
     auto v = aoc::splitn<2, ','>(s.substr(2));
     // println("{} {}",v.at(0),v.at(1));
-    return Vec{stol(v.at(1)), stol(v.at(0))};
+    return Vec{stoi(v.at(1)), stoi(v.at(0))};
   };
   vector<Robot> op;
   for (auto &&[spos, sdir] :
