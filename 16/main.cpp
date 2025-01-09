@@ -26,8 +26,7 @@ void recurse(const Maze &maze, Vec pos, Vec dir, Vec target, int nstep,
   const int score = nstep + 1000 * ncorner;
   if(score > best) return;
   if (pos == target) {
-    if (score < best)
-      println("nstep {} ncorner {} score {}", nstep, ncorner, score);
+    //if (score < best) println("nstep {} ncorner {} score {}", nstep, ncorner, score);
     best = min(best, score);
     return;
   }
