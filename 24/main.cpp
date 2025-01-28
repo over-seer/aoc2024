@@ -11,10 +11,6 @@ struct Rule {
   std::function<bool(bool, bool)> op;
 };
 
-struct XOR {
-  bool operator()(bool a, bool b) { return a != b; }
-};
-
 auto parse(const string &fn) -> pair<map<string, bool>, map<string, Rule>> {
   const auto ip = aoc::read_paragraph_ip(fn);
   auto pt1 = [](const string &s) {
@@ -26,7 +22,7 @@ auto parse(const string &fn) -> pair<map<string, bool>, map<string, Rule>> {
     else if (s == "AND")
       return logical_and<bool>();
     else if (s == "XOR")
-      return XOR();
+      return not_equal_to<bool>();
     else
       throw runtime_error("bad operation");
   };
